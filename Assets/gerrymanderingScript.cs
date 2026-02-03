@@ -136,24 +136,25 @@ public class gerrymanderingScript : MonoBehaviour {
         puzzle = new Puzzle(Answer, Matrix, bluePreffered ? Hue.Blue : Hue.Orange);
 
         StartCoroutine(GeneratePuzzle());
-        Debug.LogFormat("[Gerrymandering #{0}] Our constitution declares we use this random value: {1}", moduleId, seed);
-        
-        PrettyMatrix = Cell.ShowMatrix(puzzle.Cells);
-        Debug.LogFormat("[Gerrymandering #{0}] Given map:\n{1}", moduleId, PrettyMatrix);
-        ProcessMatrix();
     }
 
     IEnumerator GeneratePuzzle() {
         while (true) {
             seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
 
-            if (puzzle.Run(new System.Random(seed), blocSize, districts, TimeSpan.FromMilliseconds(100))) {
-                yield break;
+            if (puzzle.Run(new System.Random(seed), blocSize, districts, TimeSpan.FromMilliseconds(200))) {
+                break;
             }
 
-            Debug.LogFormat("<Gerrymandering #{0}> Seed didn't manage to generate in 100ms: {1}", moduleId, seed);
+            Debug.LogFormat("<Gerrymandering #{0}> We considered this value for our constitution, but couldn't make a map in 100ms: {1}", moduleId, seed);
             yield return null;
         }  
+        
+        Debug.LogFormat("[Gerrymandering #{0}] Our constitution declares we use this random value: {1}", moduleId, seed);
+        
+        PrettyMatrix = Cell.ShowMatrix(puzzle.Cells);
+        Debug.LogFormat("[Gerrymandering #{0}] Given map:\n{1}", moduleId, PrettyMatrix);
+        ProcessMatrix();
     }
 
     void ProcessMatrix() {
