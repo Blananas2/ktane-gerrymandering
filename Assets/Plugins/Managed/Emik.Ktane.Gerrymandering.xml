@@ -2,6 +2,11 @@
 <doc>
 <assembly><name>Emik.Ktane.Gerrymandering</name></assembly>
 <members>
+<member name="T:FSharp.Core.InlineIfLambdaAttribute">
+<summary>
+ This function should be statically inlined throughout the body of the function of method.
+</summary>
+</member>
 <member name="P:System.Runtime.Versioning.TargetFrameworkAttribute.FrameworkDisplayName(System.String)">
 <summary>
  Gets the display name of the .NET version against which an assembly was built.
@@ -34,12 +39,12 @@
 </member>
 <member name="M:Emik.Morsels.FSharp.Boolean.some``1(System.Boolean,Microsoft.FSharp.Core.FSharpFunc{Microsoft.FSharp.Core.Unit,``0})">
 <summary>
- Maps the boolean to Some(f()) if true, or None otherwise.
+ Maps the boolean to Some(fn()) if true, or None otherwise.
 </summary>
 </member>
 <member name="M:Emik.Morsels.FSharp.Boolean.some``1(System.Boolean,``0)">
 <summary>
- Maps the boolean to Some(f) if true, or None otherwise.
+ Maps the boolean to Some(a) if true, or None otherwise.
 </summary>
 </member>
 <member name="M:Emik.Morsels.FSharp.remove``1(``0,Microsoft.FSharp.Collections.FSharpList{``0})">
@@ -313,7 +318,7 @@
 </member>
 <member name="T:Emik.Morsels.FSharp">
 <summary>
- Extension methods for boolean types.
+ Provides standard functional methods.
 </summary>
 </member>
 </members>

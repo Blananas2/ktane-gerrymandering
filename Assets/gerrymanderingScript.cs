@@ -32,6 +32,7 @@ public class gerrymanderingScript : MonoBehaviour {
     int chosenSize = -1;
     int blocSize = 9;
     int districts = -1;
+    const int TIME_LIMIT = 200;
     int seed;
     readonly int year = DateTime.Today.Year;
     bool[] shutUp = { false, false };
@@ -88,19 +89,19 @@ public class gerrymanderingScript : MonoBehaviour {
         Debug.LogFormat("[Gerrymandering #{0}] {1} is your party's color.", moduleId, bluePreffered ? "Blue" : "Orange");
         Envelope.sprite = EnvColors[bluePreffered ? 0 : 1];
 
-        area = UnityEngine.Random.Range(0, 100);
+        area = UnityEngine.Random.Range(0, 10);
 
-        if      (area <  5) { area = 0; }
-        else if (area < 20) { area = 1; }
-        else if (area < 60) { area = 2; }
-        else if (area < 85) { area = 3; }
-        else                { area = 4; }
+        if      (area < 4) { area = 0; }
+        else if (area < 7) { area = 1; }
+        else if (area < 9) { area = 2; }
+        else               { area = 3; }
+        //else                { area = 4; }
 
         height = 9 - area;
         width = height + 4;
         Debug.LogFormat("<Gerrymandering #{0}> {1}x{2} is the width and height of the map.", moduleId, width, height);
         minSize = ((height/2) - 1) * width + (area == 4 ? 1 : 0);
-        maxSize = (height - 2) * (width - 2);
+        maxSize = height * width;
 
         float scaleFactor = 1f;
         if (area % 2 == 1) {
@@ -142,11 +143,11 @@ public class gerrymanderingScript : MonoBehaviour {
         while (true) {
             seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
 
-            if (puzzle.Run(new System.Random(seed), blocSize, districts, TimeSpan.FromMilliseconds(200))) {
+            if (puzzle.Run(new System.Random(seed), blocSize, districts, TimeSpan.FromMilliseconds(TIME_LIMIT))) {
                 break;
             }
 
-            Debug.LogFormat("<Gerrymandering #{0}> We considered this value for our constitution, but couldn't make a map in 100ms: {1}", moduleId, seed);
+            Debug.LogFormat("<Gerrymandering #{0}> We considered this value for our constitution, but couldn't make a map in {1}ms: {2}", moduleId, TIME_LIMIT, seed);
             yield return null;
         }  
         
